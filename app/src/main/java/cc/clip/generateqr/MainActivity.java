@@ -9,9 +9,14 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -47,7 +52,12 @@ public class MainActivity extends ActionBarActivity {
 
     private Bitmap generateQRCode(String data, int width, int height) throws WriterException {
         QRCodeWriter writer = new QRCodeWriter();
-        BitMatrix matrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height);
+
+        // set error correction level
+        Map<EncodeHintType, Object> hint = new HashMap<EncodeHintType, Object>();
+        hint.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+
+        BitMatrix matrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height, hint);
         return matrixToBitmap(matrix);
     }
 
