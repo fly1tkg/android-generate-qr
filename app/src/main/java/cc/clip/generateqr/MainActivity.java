@@ -24,9 +24,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            ImageView imageView = new ImageView(this);
+            setContentView(R.layout.activity_main);
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
             imageView.setImageBitmap(generateQRCode("http://google.com", 200, 200));
-            setContentView(imageView);
         } catch (Exception e) {}
     }
 
@@ -56,6 +56,9 @@ public class MainActivity extends ActionBarActivity {
         // set error correction level
         Map<EncodeHintType, Object> hint = new HashMap<EncodeHintType, Object>();
         hint.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+
+        // set margin
+        hint.put(EncodeHintType.MARGIN, 2);
 
         BitMatrix matrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height, hint);
         return matrixToBitmap(matrix);
